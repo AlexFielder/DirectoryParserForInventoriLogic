@@ -9,9 +9,12 @@ Imports System.Text.RegularExpressions
 
 Module Module1
 #Region "Working Console App Code"
+    ''' <summary>
+    ''' The Main Program.
+    ''' </summary>
+    ''' <remarks></remarks>
     Public Sub Main()
         Console.WriteLine("Enter Path to Parse...")
-
         Dim rootPath As String = Console.ReadLine()
         Dim dir = New DirectoryInfo(rootPath)
         Dim doc = New XDocument(GetDirectoryXml(dir, 0))
@@ -20,9 +23,15 @@ Module Module1
 
         Console.Read()
     End Sub
-
+    ''' <summary>
+    ''' Gets a friendly-named ParentAssembly, Assembly and level for files in dir
+    ''' </summary>
+    ''' <param name="dir">the directory to parse</param>
+    ''' <param name="level">the current level</param>
+    ''' <returns>XElements for the resultant XML file</returns>
+    ''' <remarks>Need to edit the resultant .XML file with notepad++ using the Regex search pattern of "<dir dirname=".*">" & "</dir>" to remove excess information</remarks>
     Public Function GetDirectoryXml(ByVal dir As DirectoryInfo, ByVal level As Long) As Object
-        Dim info = New XElement("dir", New XAttribute("name", dir.Name))
+        Dim info = New XElement("dir", New XAttribute("dirname", GetFriendlyDirName(dir.Name)))
         If Not dir.Name.Contains("Superseded") Then
             For Each file As FileInfo In dir.GetFiles()
                 'info.Add(New XElement("file", New XAttribute("name", file.Name), New XAttribute("friendlyname", GetFriendlyName(file.Name))))
@@ -56,6 +65,12 @@ Module Module1
 
     End Function
 
+    ''' <summary>
+    ''' Uses Regex to get a nicely formatted filename
+    ''' </summary>
+    ''' <param name="p">The string to search</param>
+    ''' <returns>returns a string formatted thus: @@-#####-000 or @@-@#####-000</returns>
+    ''' <remarks></remarks>
     Public Function GetFriendlyName(p As String) As Object
         Dim f As String = String.Empty
         Dim r As New Regex("\w{2}-\d{5,}|\w{2}-\w\d{5,}")
@@ -64,6 +79,12 @@ Module Module1
         Return f
     End Function
 
+    ''' <summary>
+    ''' Uses Regex to get a nicely formatted dirname
+    ''' </summary>
+    ''' <param name="p1">The string to search</param>
+    ''' <returns>returns a string formatted thus: @@-#####-000 or @@-@#####-000</returns>
+    ''' <remarks></remarks>
     Public Function GetFriendlyDirName(p1 As String) As Object
         If Not p1.Contains(":") Then
             Dim f As String = String.Empty
@@ -75,6 +96,12 @@ Module Module1
         End If
     End Function
 
+    ''' <summary>
+    ''' Searches a given string to see if it matches the required pattern.
+    ''' </summary>
+    ''' <param name="p1">the string to query</param>
+    ''' <returns>Returns an int value</returns>
+    ''' <remarks></remarks>
     Private Function getsheetnum(p1 As String) As Integer
         Dim f As String = String.Empty
         Dim pattern As String = "(.*)(sht-)(\d{3})(.*)"
