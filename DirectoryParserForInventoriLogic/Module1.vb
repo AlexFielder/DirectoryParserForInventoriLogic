@@ -19,9 +19,10 @@ Module Module1
         Dim dir = New DirectoryInfo(rootPath)
         Dim doc = New XDocument(GetDirectoryXml(dir, 0))
         doc.Save("C:\temp\VBtest.xml")
-        Console.WriteLine(doc.ToString())
+        Console.WriteLine("Done")
+        'Console.WriteLine(doc.ToString())
 
-        Console.Read()
+        'Console.Read()
     End Sub
     ''' <summary>
     ''' Gets a friendly-named ParentAssembly, Assembly and level for files in dir
@@ -29,7 +30,7 @@ Module Module1
     ''' <param name="dir">the directory to parse</param>
     ''' <param name="level">the current level</param>
     ''' <returns>XElements for the resultant XML file</returns>
-    ''' <remarks>Need to edit the resultant .XML file with notepad++ using the Regex search pattern of "<dir dirname=".*">" & "</dir>" to remove excess information</remarks>
+    ''' <remarks>Need to edit the resultant .XML file with notepad++ using the Regex search pattern of "<dir dirname=".*">" and "</dir>" to remove excess information</remarks>
     Public Function GetDirectoryXml(ByVal dir As DirectoryInfo, ByVal level As Long) As Object
         Dim info = New XElement("dir", New XAttribute("dirname", GetFriendlyDirName(dir.Name)))
         If Not dir.Name.Contains("Superseded") Then
