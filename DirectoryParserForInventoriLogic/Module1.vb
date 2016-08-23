@@ -11,6 +11,7 @@ Module Module1
 #Region "Working Console App Code"
     ''' <summary>
     ''' The Main Program.
+    ''' Could modify this app to use .NET 6 features such as the XML to LINQ mechanic but I have no idea if Windows 7 even supports it...?
     ''' </summary>
     ''' <remarks></remarks>
     Public Sub Main()
